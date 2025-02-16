@@ -1,0 +1,29 @@
+# Ignore PostgreSQL SSL certificates
+/postgres-certs/server.key
+/postgres-certs/server.crt
+
+# Ignore Python virtual environment
+venv/
+.env/
+
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore Docker volumes
+postgres_data/
+grafana_data/
+
+# Ignore local environment variables
+.env
+.env.local
+
+# Ignore YOLO model files (if needed)
+*.pt

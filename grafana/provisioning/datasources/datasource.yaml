@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: db:5432
+    database: detection_db
+    user: postgres
+    secureJsonData:
+      password: postgres
+    isDefault: true
+    editable: true

@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: detection_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-certs:/var/lib/postgresql/certs
+    command: >
+      sh -c '
+      chmod 600 /var/lib/postgresql/certs/server.key &&
+      exec docker-entrypoint.sh postgres 
+        -c ssl=on 
+        -c ssl_cert_file=/var/lib/postgresql/certs/server.crt 
+        -c ssl_key_file=/var/lib/postgresql/certs/server.key
+      '
+
+  app:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: detection_db
+    depends_on:
+      - db
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  grafana_data:
